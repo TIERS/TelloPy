@@ -60,12 +60,13 @@ class Tello(object):
     LOG_DEBUG = logger.LOG_DEBUG
     LOG_ALL = logger.LOG_ALL
 
-    def __init__(self, ip='192.168.0.66', port=8889, own_port=8877):
+    def __init__(self, ip='192.168.10.1', port=8889, own_port=8877, video_port=6038):
         self.tello_addr = (ip, port)
         self.debug = False
         self.pkt_seq_num = 0x01e4
         self.port = port
         self.own_port = own_port
+        self.video_port = video_port
         self.udpsize = 2000
         self.left_x = 0.0
         self.left_y = 0.0
@@ -751,7 +752,7 @@ class Tello(object):
         log.info('start video thread')
         # Create a UDP socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        port = 6038
+        port = self.video_port
         sock.bind(('', port))
         sock.settimeout(1.0)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 512 * 1024)
